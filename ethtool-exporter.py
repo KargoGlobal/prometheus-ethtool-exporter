@@ -2,7 +2,7 @@
 """Collect ethtool metrics,publish them via http or save them to a file."""
 import re
 from argparse import ArgumentParser, Namespace
-from distutils.spawn import find_executable
+from shutil import which
 from logging import CRITICAL, DEBUG, INFO, Logger, basicConfig, getLogger
 from os import environ
 from pathlib import Path
@@ -504,7 +504,7 @@ class EthtoolCollector:
 if __name__ == "__main__":
     path = ":".join([environ.get("PATH", ""), "/usr/sbin", "/sbin"])
     # Try to find the executable of ethtool.
-    if (ethtool := find_executable("ethtool", path)) is None:
+    if (ethtool := which("ethtool", path=path)) is None:
         exit("Error: cannot find ethtool.")
     # Create new instance of EthtoolCollector.
     collector = EthtoolCollector()
